@@ -7,12 +7,19 @@ public class BlockchainApp {
 
         ArrayList<Block> blockchain = new ArrayList<Block>();
 
-        Transaction transaction1 = new Transaction("Ally", "Ben", 10);
-        Transaction transaction2 = new Transaction("Candice", "Dave", 20);
-        Transaction transaction3 = new Transaction("Emily", "Francis", 30);
-        Transaction transaction4 = new Transaction("George", "Holly", 40);
-        Transaction transaction5 = new Transaction("Isabel", "Jenny", 50);
-        Transaction transaction6 = new Transaction("Kim", "Larry", 60);
+        Wallet wallet1 = new Wallet("Allison", 100);
+        Wallet wallet2 = new Wallet("Billy", 100);
+        Wallet wallet3 = new Wallet("Candice", 100);
+        Wallet wallet4 = new Wallet("Dave", 100);
+        Wallet wallet5 = new Wallet("Elliot", 100);
+        Wallet wallet6 = new Wallet("Francis", 100);
+        Wallet wallet7 = new Wallet("Georgia", 100);
+        Wallet wallet8 = new Wallet("Harold", 100);
+
+        Transaction transaction1 = new Transaction(wallet1, wallet2, 10);
+        Transaction transaction2 = new Transaction(wallet3, wallet4, 20);
+        Transaction transaction3 = new Transaction(wallet5, wallet6, 10);
+        Transaction transaction4 = new Transaction(wallet7, wallet8, 10);
 
 
         ArrayList<Transaction> list1 = new ArrayList<Transaction>();
@@ -29,11 +36,6 @@ public class BlockchainApp {
         blockchain.add(block2);
         System.out.println(blockchain);
 
-        ArrayList<Transaction> list3 = new ArrayList<Transaction>();
-        list2.add(transaction5);
-        list2.add(transaction6);
-        Block block3 = new Block(block2.getCurrentHash(), list3);
-        blockchain.add(block3);
-        System.out.println(blockchain);
+        System.out.println(blockchain.get(0).getTransactions().get(1).getSender().getOwner());
     }
 }
