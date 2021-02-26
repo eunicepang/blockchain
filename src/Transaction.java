@@ -1,28 +1,28 @@
 public class Transaction {
     
-    private String sender;
-    private String recipient;
+    private Wallet sender;
+    private Wallet recipient;
     private int amount;
 
-    public Transaction(String sender, String recipient, int amount){
+    public Transaction(Wallet sender, Wallet recipient, int amount){
         this.sender = sender;
         this.recipient = recipient;
         this.amount = amount;
     }
 
-    public String getSender(){
+    public Wallet getSender(){
         return this.sender;
     }
 
-    public void setSender(String sender){
+    public void setSender(Wallet sender){
         this.sender = sender;
     }
 
-    public String getRecipient(){
+    public Wallet getRecipient(){
         return this.recipient;
     }
 
-    public void setRecipient(String recipient){
+    public void setRecipient(Wallet recipient){
         this.recipient = recipient;
     }
 
