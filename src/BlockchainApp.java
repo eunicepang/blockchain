@@ -1,41 +1,89 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BlockchainApp {
 
     public static void main(String[] args) {
-
-
-        ArrayList<Block> blockchain = new ArrayList<Block>();
-
-        Wallet wallet1 = new Wallet("Allison", 100);
-        Wallet wallet2 = new Wallet("Billy", 100);
-        Wallet wallet3 = new Wallet("Candice", 100);
-        Wallet wallet4 = new Wallet("Dave", 100);
-        Wallet wallet5 = new Wallet("Elliot", 100);
-        Wallet wallet6 = new Wallet("Francis", 100);
-        Wallet wallet7 = new Wallet("Georgia", 100);
-        Wallet wallet8 = new Wallet("Harold", 100);
-
-        Transaction transaction1 = new Transaction(wallet1, wallet2, 10);
-        Transaction transaction2 = new Transaction(wallet3, wallet4, 20);
-        Transaction transaction3 = new Transaction(wallet5, wallet6, 10);
-        Transaction transaction4 = new Transaction(wallet7, wallet8, 10);
-
-
-        ArrayList<Transaction> list1 = new ArrayList<Transaction>();
-        list1.add(transaction1);
-        list1.add(transaction2);
-        Block block1 = new Block(0, list1);
-        blockchain.add(block1);
-        System.out.println(blockchain);
-
-        ArrayList<Transaction> list2 = new ArrayList<Transaction>();
-        list2.add(transaction3);
-        list2.add(transaction4);
-        Block block2 = new Block(block1.getCurrentHash(), list2);
-        blockchain.add(block2);
-        System.out.println(blockchain);
-
-        System.out.println(blockchain.get(0).getTransactions().get(1).getSender().getOwner());
+        Blockchain blockchain = new Blockchain();
+        blockchain.modifyBlockchain(blockchain);
     }
 }
+        
+
+    class Blockchain{
+        ArrayList<Block> blocks;
+        int length;
+
+        Blockchain(){
+            this.blocks = new ArrayList<>();
+            this.length = 0;
+        }
+
+        void modifyBlockchain(Blockchain blockchain){
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Welcome");
+            System.out.println("\n");
+            System.out.println("A : Print previous block");
+            System.out.println("B : Add Block");
+            System.out.println("C : Exit app");
+    
+            char option;
+            do {
+                System.out.println("==========================================================================");
+                System.out.println("What would you like to do?");
+                option = scanner.next().charAt(0);
+                System.out.println("\n");
+    
+                String sender;
+                int amount;
+                String receiver;
+                switch (option) {
+                    case 'A' :
+                        if (blockchain.blocks.size() > 0){
+                            System.out.println(blockchain.blocks.get(blocks.size()-1));
+                        } else {
+                            System.out.println("Blockchain is empty, please add a transaction");
+                            System.out.println("\n");
+                            blockchain.modifyBlockchain(blockchain);
+                        }
+                        System.out.println("----------------------------------------");
+                        System.out.println("Previous block = " + blockchain.blocks.get(blocks.size()-1));
+                        System.out.println("----------------------------------------");
+                        System.out.println("\n");
+                        break;
+    
+                    case 'B' :
+                        System.out.println("----------------------------------------");
+                        System.out.println("Who is the sender?");
+                        sender = scanner.next();
+                        Wallet wallet1 = new Wallet(sender, 100);
+                        System.out.println("How much is being sent?");
+                        amount = scanner.nextInt();
+                        System.out.println("Who is the receiver?");
+                        receiver = scanner.next();
+                        Wallet wallet2 = new Wallet(receiver, 200);
+                        wallet1.setSum(wallet1.getSum()-amount);
+                        wallet2.setSum(wallet2.getSum()+amount);
+                        Transaction transaction = new Transaction(wallet1, wallet2, amount);
+                        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+                        transactions.add(transaction);
+                        Block block = new Block(0, transactions);
+                        blockchain.blocks.add(block);
+                        System.out.println(blockchain.blocks);
+                        System.out.println(wallet1.getOwner() + " now has " + wallet1.getSum());
+                        System.out.println(wallet2.getOwner() + " now has " + wallet2.getSum());
+                        blockchain.length++;
+                        System.out.println("Blockchain size: " + blockchain.length);
+                        break;
+    
+                    case 'C' :
+                        System.out.println("----------------------------------------");
+                        break;
+                }
+            }
+    
+            while(option != 'C');
+            System.out.println("Thank you!");
+        }
+
+    }
