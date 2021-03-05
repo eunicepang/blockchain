@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Date;
 
 public class BlockchainApp {
 
@@ -9,7 +10,6 @@ public class BlockchainApp {
     }
 }
         
-
     class Blockchain{
         ArrayList<Block> blocks;
         int length;
@@ -17,6 +17,9 @@ public class BlockchainApp {
         Blockchain(){
             this.blocks = new ArrayList<>();
             this.length = 0;
+            Block genesisBlock = new Block(new java.util.Date(), 0, new ArrayList<>());
+            this.blocks.add(genesisBlock);
+            this.length = 1;
         }
 
         void modifyBlockchain(Blockchain blockchain){
@@ -67,7 +70,7 @@ public class BlockchainApp {
                         Transaction transaction = new Transaction(wallet1, wallet2, amount);
                         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
                         transactions.add(transaction);
-                        Block block = new Block(0, transactions);
+                        Block block = new Block(new java.util.Date(), 0, transactions);
                         blockchain.blocks.add(block);
                         System.out.println(blockchain.blocks);
                         System.out.println(wallet1.getOwner() + " now has " + wallet1.getSum());
