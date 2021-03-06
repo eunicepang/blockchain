@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
+import java.io.*;
 
 public class BlockchainApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Blockchain blockchain = new Blockchain();
         blockchain.modifyBlockchain(blockchain);
     }
@@ -22,13 +23,17 @@ public class BlockchainApp {
             this.length = 1;
         }
 
-        void modifyBlockchain(Blockchain blockchain){
+        void modifyBlockchain(Blockchain blockchain) throws IOException{
             Scanner scanner = new Scanner(System.in);
             System.out.println("Welcome");
             System.out.println("\n");
             System.out.println("A : Print previous block");
             System.out.println("B : Add Block");
             System.out.println("C : Exit app");
+
+            File file = new File("data.txt");
+            FileWriter fw = new FileWriter(file);
+            PrintWriter pw = new PrintWriter (fw);
     
             char option;
             do {
@@ -70,13 +75,14 @@ public class BlockchainApp {
                         Transaction transaction = new Transaction(wallet1, wallet2, amount);
                         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
                         transactions.add(transaction);
-                        Block block = new Block(new java.util.Date(), 0, transactions);
+                        Block block = new Block(new java.util.Date(), blockchain.blocks.get(blocks.size()-1).getCurrentHash(), transactions);
                         blockchain.blocks.add(block);
                         System.out.println(blockchain.blocks);
                         System.out.println(wallet1.getOwner() + " now has " + wallet1.getSum());
                         System.out.println(wallet2.getOwner() + " now has " + wallet2.getSum());
                         blockchain.length++;
                         System.out.println("Blockchain size: " + blockchain.length);
+
                         break;
     
                     case 'C' :
@@ -87,6 +93,15 @@ public class BlockchainApp {
     
             while(option != 'C');
             System.out.println("Thank you!");
+            
+            for (Block blk: blockchain.blocks) {
+                pw.println("Block number: " + blocks.indexOf(blk));
+                pw.println(blk.getTimestamp().toString());
+                pw.println(String.valueOf(blk.getPreviousHash()));
+                pw.println(String.valueOf(blk.getCurrentHash()));
+                pw.println("\n");
+            }
+            pw.close();
         }
 
     }
